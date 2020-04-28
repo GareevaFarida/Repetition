@@ -17,6 +17,13 @@ public class Main {
         arrayList.add(8);
         arrayList.add(9);
 
+        Object[] arr = arrayList.toArray();
+        System.out.println("Печатаем после выгрузки в массив");
+        for (Object obj: arr
+             ) {
+            System.out.println(obj);
+        }
+
         System.out.println(arrayList);
         arrayList.remove(5);
         System.out.println("После удаления 5: " + arrayList + ". Длина " + arrayList.size());
@@ -30,6 +37,7 @@ public class Main {
 
         arrayList.clear();
         System.out.println(arrayList);
+
 
         System.out.println("=======================================");
 

@@ -34,15 +34,16 @@ public class MyArrayList<E> {
     }
 
     public Object[] toArray() {
-        return this.array;
+        Object[] new_array = new Object[size];
+        System.arraycopy(array,0,new_array,0,size);
+        return new_array;
     }
 
-    public boolean add(E e) {
+    public void add(E e) {
         if (array.length == size) {
             resize(size * 2);
         }
         array[size++] = e;
-        return true;
     }
 
     private void resize(int newLength) {

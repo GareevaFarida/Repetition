@@ -201,7 +201,21 @@ on tab_avg_viewers.film_id = tab_f.id
 group by name with rollup
 order by total_sum desc;
 
---Последнюю задачу вышлю чуть позже.
+-- число посетителей и кассовые сборы, сгруппированные по времени начала фильма
+SELECT
+case
+when date_format(date,'%H:%i:%s')>='09:00:00' and date_format(date,'%H:%i:%s')<'15:00:00' then '09:00:00-14:59:59'
+when date_format(date,'%H:%i:%s')>='15:00:00' and date_format(date,'%H:%i:%s')<'18:00:00' then '15:00:00-17:59:59'
+when date_format(date,'%H:%i:%s')>='18:00:00' and date_format(date,'%H:%i:%s')<'21:00:00' then '18:00:00-20:59:59'
+when date_format(date,'%H:%i:%s')>='21:00:00' and date_format(date,'%H:%i:%s')<='23:59:59' then '21:00:00-23:59:59'
+ else 'время после полуночи' end as period,
+ sum(price) as total_money,
+count(cinema.tickets.id) as viewers FROM cinema.session
+inner join cinema.tickets
+on cinema.session.id = cinema.tickets.session_id
+group by period
+order by period;
+
 
 
 

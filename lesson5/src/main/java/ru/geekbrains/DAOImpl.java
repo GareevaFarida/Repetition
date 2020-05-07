@@ -10,13 +10,14 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @Author Farida Gareeva
  * Created 07.05.2020
  */
-public class DAOImpl<E,T> {
+public class DAOImpl<E, T extends Serializable> {
 
     private Session currentSession;
     private Transaction currentTransaction;
@@ -84,15 +85,15 @@ public class DAOImpl<E,T> {
         getCurrentSession().update(entity);
     }
 
-//    public E findById(T id) {
-//        E book = (E) getCurrentSession().get(E, id);
-//        return book;
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    public List<Student> findAll(){
-//        return (List<Student>)getCurrentSession().createQuery("from Student").list();
-//    }
+    public Student findById(Class<E> clazz, T id) {
+        Student student = (Student) getCurrentSession().get(clazz, id);
+        return student;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<E> findAll(Class<E> clazz){
+        return (List<E>)getCurrentSession().createQuery("from "+clazz.getSimpleName()).list();
+    }
 
     public void delete(E entity) {
         getCurrentSession().delete(entity);
